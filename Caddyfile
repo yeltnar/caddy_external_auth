@@ -1,0 +1,38 @@
+:8881 {
+	log {
+		level debug
+	}
+	templates 
+	header Content-Type text/plain
+	respond "{{.RemoteIP}}"
+}
+
+:8882 {
+	log {
+		level debug
+	}
+	templates 
+	header Content-Type text/plain
+	respond "No good" 401
+}
+
+# Serve the authentication gateway itself
+#auth.example.com {
+#	reverse_proxy authelia:9091
+#}
+
+# Serve your app
+:9999 {
+
+	log {
+		level debug
+	}
+
+	forward_auth localhost:8882 {
+		uri /api/verify?rd=http://localhost:81
+		copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+	}
+
+	reverse_proxy localhost:8881
+}
+
