@@ -5,7 +5,7 @@ fi
 
 if [ -z $CADDYFILE ]
 then
-	CADDYFILE="$bashrc_folder/files/Caddyfile"	
+	CADDYFILE="./Caddyfile"	
 fi
 
 if [ -z $PORT ]
